@@ -6,6 +6,7 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +31,9 @@ public class ImageController {
 		return image.getId();
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET, consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
-	public Image getImage(@RequestParam(value = "name") String id) {
-		return imageRepository.findById(id).get();
+	@RequestMapping(value = "/find", method = RequestMethod.GET )
+	public ResponseEntity<Object> getImage(@RequestParam(value = "name") String id) {
+		Image image = imageRepository.findById(id).get();
+		return ResponseEntity.ok().body(image);
 	}
 }
